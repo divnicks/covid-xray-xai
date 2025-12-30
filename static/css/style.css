@@ -1,0 +1,167 @@
+/* ================= GLOBAL RESET ================= */
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;        /* 🚫 no left/right scroll */
+    background: #f4f6f9;
+    font-family: Arial, sans-serif;
+}
+
+/* ================= CARD ================= */
+.card {
+    width: 1000px;             /* desktop look preserved */
+    max-width: 100%;           /* mobile-safe */
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+/* ================= HEADINGS ================= */
+h1, h2, h3 {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* ================= BUTTONS ================= */
+.btn-primary {
+    background: #0066cc;
+    color: white;
+    padding: 12px 22px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    width: auto;
+}
+
+.btn-primary:hover {
+    background: #0052a3;
+}
+
+.btn-secondary {
+    background: #e5e7eb;
+    color: #111827;
+    padding: 12px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid #d1d5db;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* ================= UPLOAD ROW ================= */
+.upload-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.file-name {
+    font-size: 14px;
+    color: #374151;
+    word-break: break-word;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+/* ================= EXPLANATION BOX ================= */
+.explanation-box {
+    background: #f0f4f8;
+    border-left: 5px solid #2b6cb0;
+    padding: 14px 18px;
+    margin-top: 12px;
+    border-radius: 6px;
+}
+
+.explanation-box h4 {
+    margin: 0 0 6px 0;
+    color: #2b6cb0;
+    font-size: 16px;
+}
+
+.explanation-box p {
+    margin: 0;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* ================= XAI VISUALS ================= */
+.xai-grid {
+    display: flex;                 /* desktop = horizontal */
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+.xai-img {
+    width: 280px;                  /* desktop size */
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.caption {
+    font-size: 14px;
+    color: #555;
+    margin-top: 6px;
+    max-width: 280px;
+}
+
+/* ================================================= */
+/* ================= MOBILE FIX ==================== */
+/* ================================================= */
+@media (max-width: 768px) {
+
+    .card {
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 0;        /* 📱 flat mobile page */
+        box-shadow: none;        /* 📱 no floating card */
+        background: #f4f6f9;
+    }
+
+    .upload-row {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        width: 100%;
+    }
+
+    .file-name {
+        text-align: center;
+    }
+
+    .xai-grid {
+        flex-direction: column;  /* vertical on mobile */
+        gap: 24px;
+    }
+
+    .xai-img {
+        width: 100%;
+    }
+
+    .caption {
+        max-width: 100%;
+    }
+}

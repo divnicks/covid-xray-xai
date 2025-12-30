@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>COVID-19 X-ray AI</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<div class="card">
+    <h1>🫁 COVID-19 X-ray AI Prediction System</h1>
+
+    <!-- Upload -->
+    <form method="POST" enctype="multipart/form-data">
+        <div class="upload-row">
+            <label class="btn-secondary">
+                Upload X-ray
+                <input type="file" name="image" id="fileInput" required>
+            </label>
+            <span class="file-name" id="fileName">No file selected</span>
+            <button type="submit" class="btn-primary">Analyze</button>
+        </div>
+    </form>
+
+    {% if result %}
+    <hr>
+
+    <h2>Assessment</h2>
+    <p style="font-size:20px;"><b>{{ result.label }}</b></p>
+    <p><b>Estimated COVID probability:</b> {{ result.prob }}%</p>
+
+    <div class="explanation-box">
+        <h4>Explanation based on visual analysis</h4>
+        <p>{{ result.explanation }}</p>
+    </div>
+
+    <p style="color:#666; font-size:14px; margin-top:10px;">
+        This output represents a probabilistic model assessment and should not be interpreted as a clinical diagnosis.
+    </p>
+
+    <p><b>CAM inside lungs:</b> {{ result.inside }}%</p>
+    <p><b>CAM outside lungs:</b> {{ result.outside }}%</p>
+
+    <h3>XAI Visual Explanations</h3>
+
+    <div class="xai-grid">
+        <div>
+            <p><b>Lung Mask (overlay)</b></p>
+            <img src="/static/results/{{ result.mask }}" class="xai-img">
+            <p class="caption">Highlights lung regions identified by the system as relevant for analysis.</p>
+        </div>
+
+        <div>
+            <p><b>Grad-CAM Heatmap</b></p>
+            <img src="/static/results/{{ result.heatmap }}" class="xai-img">
+            <p class="caption">Brighter regions indicate areas with greater influence on the decision.</p>
+        </div>
+
+        <div>
+            <p><b>CAM Overlay</b></p>
+            <img src="/static/results/{{ result.overlay }}" class="xai-img">
+            <p class="caption">Shows how influential regions align with lung anatomy.</p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const fileName = document.getElementById("fileName");
+
+    fileInput.addEventListener("change", function () {
+        fileName.textContent = this.files.length > 0
+            ? this.files[0].name
+            : "No file selected";
+    });
+</script>
+
+</body>
+</html>
