@@ -36,7 +36,7 @@ def interpret_probability(prob):
 # ---------------- XAI NATURAL-LANGUAGE EXPLANATION ----------------
 def explain_decision(prob, inside, outside):
 
-    STRONG_LUNG_FOCUS = 0.65  # balanced, clinically reasonable threshold
+    STRONG_LUNG_FOCUS = 0.64  # balanced, clinically reasonable threshold
 
     # -------- HIGH probability cases --------
     if prob >= 0.70:
