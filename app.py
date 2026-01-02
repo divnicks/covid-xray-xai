@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import os
 import torch
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
 
 from model.model import load_model
 from model.preprocess import make_4ch_tensor
