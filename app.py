@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request
 import os
 import torch
+
+# TORCH SAFETY 
 torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
 
@@ -22,7 +24,6 @@ os.makedirs(RESULT_FOLDER, exist_ok=True)
 # ---------------- LOAD MODEL ----------------
 model = load_model("model/weights.pth")
 
-
 # ---------------- PROBABILITY LABEL ----------------
 def interpret_probability(prob):
     if prob < 0.30:
@@ -34,13 +35,11 @@ def interpret_probability(prob):
     else:
         return "Very likely COVID"
 
-
 # ---------------- XAI NATURAL-LANGUAGE EXPLANATION ----------------
 def explain_decision(prob, inside, outside):
 
-    STRONG_LUNG_FOCUS = 0.64  # balanced, clinically reasonable threshold
+    STRONG_LUNG_FOCUS = 0.64  # balanced threshold
 
-    # -------- HIGH probability cases --------
     if prob >= 0.70:
         if inside >= STRONG_LUNG_FOCUS:
             return (
@@ -58,7 +57,6 @@ def explain_decision(prob, inside, outside):
                 "was outside the lung regions, which may indicate less anatomically focused reasoning."
             )
 
-    # -------- MODERATE probability cases --------
     elif 0.40 <= prob < 0.70:
         if inside >= STRONG_LUNG_FOCUS:
             return (
@@ -76,15 +74,11 @@ def explain_decision(prob, inside, outside):
                 "within the lung regions, indicating lower confidence in the assessment."
             )
 
-    # -------- LOW probability cases --------
     else:
         return (
             "The model did not identify strong lung-focused patterns associated with COVID-19, and the "
             "low probability score suggests that COVID-19 is unlikely in this case."
         )
-
-
-
 
 # ---------------- ROUTE ----------------
 @app.route("/", methods=["GET", "POST"])
@@ -135,7 +129,12 @@ def index():
 
     return render_template("index.html", result=result)
 
-
+# ---------------- MAIN (pyngrok DEMO) ----------------
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    from pyngrok import ngrok
 
+    port = 5000
+    public_url = ngrok.connect(port)
+    print("Public URL:", public_url)
+
+    app.run(port=port)

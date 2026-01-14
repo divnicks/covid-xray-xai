@@ -2,11 +2,8 @@ import torch
 import timm
 import torch.nn as nn
 
-# ---------------- RENDER-SAFE SETTINGS ----------------
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
-
-DEVICE = torch.device("cpu")  # FORCE CPU (Render-safe)
+# ---------------- DEVICE ----------------
+DEVICE = torch.device("cpu")  # Force CPU (Render + ngrok safe)
 
 # ---------------- MODEL DEFINITION ----------------
 def make_xception_4ch():
@@ -26,20 +23,22 @@ def make_xception_4ch():
 
 
 # ---------------- LAZY MODEL LOADER ----------------
-_model = None  # singleton
+_model = None  # singleton (prevents re-loading & OOM)
 
 def load_model(weight_path):
     global _model
 
     if _model is None:
         model = make_xception_4ch()
+
         model.load_state_dict(
-            torch.load(weight_path, map_location="cpu")
+            torch.load(weight_path, map_location=DEVICE)
         )
 
+        model.to(DEVICE)
         model.eval()
 
-        # Disable gradients (saves RAM)
+        # Disable gradients (RAM + speed optimization)
         for p in model.parameters():
             p.requires_grad = False
 
