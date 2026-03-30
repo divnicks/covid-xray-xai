@@ -128,13 +128,15 @@ def index():
         }
 
     return render_template("index.html", result=result)
+handler = app
+# # ---------------- MAIN (pyngrok DEMO) ----------------
+# if __name__ == "__main__":
+#     from pyngrok import ngrok
 
-# ---------------- MAIN (pyngrok DEMO) ----------------
-if __name__ == "__main__":
-    from pyngrok import ngrok
+#     port = 5000
+#     public_url = ngrok.connect(port)
+#     print("Public URL:", public_url)
 
-    port = 5000
-    public_url = ngrok.connect(port)
-    print("Public URL:", public_url)
+#     app.run(port=port)
 
-    app.run(port=port)
+
