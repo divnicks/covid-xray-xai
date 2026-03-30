@@ -40,7 +40,5 @@ This repo includes
 
 - Flask-based prototype interface
 
-🎓 Academic Context
 
-Developed as part of an MSc dissertation in Big Data Analytics
-Sheffield Hallam University
+
